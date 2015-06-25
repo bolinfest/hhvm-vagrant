@@ -65,6 +65,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     source ~/.profile
     nvm install 0.12.0
     nvm alias default 0.12.0
+    sudo ln -s `which node` /usr/bin/node
 
     cd
     wget http://flowtype.org/downloads/flow-linux64-latest.zip
