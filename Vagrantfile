@@ -45,6 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     sudo cp /vagrant/conf/nginx-fastcgi /etc/nginx/sites-available/nginx-fastcgi
     sudo ln -s /etc/nginx/sites-available/nginx-fastcgi /etc/nginx/sites-enabled/nginx-fastcgi
     sudo service nginx restart
+    sudo update-rc.d hhvm defaults
 
     hhvm -m daemon -c /etc/hhvm/my-php.ini -v Eval.EnableXHP=1
 
