@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 9093, host: 9093
 
   config.vm.provider :virtualbox do |vb|
-    vb.name = "HHVM"
+    vb.name = "nuclide-remote-editing"
     vb.customize ["modifyvm", :id, "--memory", "2048"]
     vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
   end
@@ -68,7 +68,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     sudo ln -s `which node` /usr/bin/node
 
     cd
-    wget http://flowtype.org/downloads/flow-linux64-latest.zip
+    wget --no-verbose http://flowtype.org/downloads/flow-linux64-latest.zip
     sudo apt-get install unzip
     unzip flow-linux64-latest.zip
     rm flow-linux64-latest.zip
