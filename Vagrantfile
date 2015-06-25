@@ -66,6 +66,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     nvm install 0.12.0
     nvm alias default 0.12.0
 
+    cd
+    wget http://flowtype.org/downloads/flow-linux64-latest.zip
+    sudo apt-get install unzip
+    unzip flow-linux64-latest.zip
+    rm flow-linux64-latest.zip
+    sudo ln -s ~/flow/flow /usr/bin/flow
+
     git clone https://github.com/facebook/nuclide.git ~/nuclide
     cd ~/nuclide
     sudo apt-get install --reinstall python-pkg-resources
