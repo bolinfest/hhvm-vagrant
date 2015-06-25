@@ -11,6 +11,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8000, host: 8100
   config.vm.network :private_network, ip: "192.168.66.66"
 
+  # Make ports available for nuclide-server.
+  config.vm.network :forwarded_port, guest: 9090, host: 9090
+  config.vm.network :forwarded_port, guest: 9091, host: 9091
+  config.vm.network :forwarded_port, guest: 9092, host: 9092
+  config.vm.network :forwarded_port, guest: 9093, host: 9093
+
   config.vm.provider :virtualbox do |vb|
     vb.name = "HHVM"
     vb.customize ["modifyvm", :id, "--memory", "2048"]
@@ -26,7 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     echo deb http://dl.hhvm.com/ubuntu precise main | sudo tee /etc/apt/sources.list.d/hhvm.list
     apt-get update
     apt-get install nginx -y --force-yes
-    apt-get install hhvm-nightly -y --force-yes
+    apt-get install hhvm -y --force-yes
     apt-get install screen vim -y --force-yes
     debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password pa$$'
     debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password pa$$'
@@ -41,6 +47,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     sudo service nginx restart
 
     hhvm -m daemon -c /etc/hhvm/my-php.ini -v Eval.EnableXHP=1
+
+    sudo apt-get install git
+
+    git clone https://github.com/facebook/watchman.git ~/watchman
+    cd ~/watchman
+    sudo apt-get install autoconf automake
+    ./autogen.sh
+    ./configure
+    sudo apt-get install make
+    make
+    sudo make install
+
+    sudo apt-get install curl
+    curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
+    source ~/.profile
+    nvm install 0.12.0
+
+    git clone https://github.com/facebook/nuclide.git ~/nuclide
+    cd ~/nuclide
+    sudo apt-get install --reinstall python-pkg-resources
+    ./scripts/dev/setup --no-atom
 
   shell
 end
