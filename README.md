@@ -13,7 +13,7 @@ and explains how to connect to it to demo remote development in Nuclide.
 ```bash
 $ git clone https://github.com/bolinfest/hhvm-vagrant.git ~/nuclide-demo
 $ cd ~/nuclide-demo
-$ vagrant up
+$ vagrant up # This step will take around 5 minutes with a decent internet connection.
 ```
 
 If everything went according to plan, you should be able to load
