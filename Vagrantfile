@@ -23,20 +23,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
   end
 
-  config.vm.provision "shell", inline: <<-shell
-    apt-get update
-    apt-get install python-software-properties  -y --force-yes
-    add-apt-repository ppa:mapnik/boost
-    add-apt-repository ppa:nginx/stable
+  config.vm.provision "shell", privileged: false, inline: <<-shell
+    sudo apt-get update
+    sudo apt-get install python-software-properties  -y --force-yes
+    sudo add-apt-repository ppa:mapnik/boost
+    sudo add-apt-repository ppa:nginx/stable
     wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | sudo apt-key add -
     echo deb http://dl.hhvm.com/ubuntu precise main | sudo tee /etc/apt/sources.list.d/hhvm.list
-    apt-get update
-    apt-get install nginx -y --force-yes
-    apt-get install hhvm -y --force-yes
-    apt-get install screen vim -y --force-yes
+    sudo apt-get update
+    sudo apt-get install nginx -y --force-yes
+    sudo apt-get install hhvm -y --force-yes
+    sudo apt-get install screen vim -y --force-yes
     debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password pa$$'
     debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password pa$$'
-    apt-get install mysql-server -y --force-yes
+    sudo apt-get install mysql-server -y --force-yes
 
     sudo chown vagrant /etc/hhvm
     sudo cp /vagrant/conf/config.hdf /etc/hhvm/my-config.hdf
@@ -47,10 +47,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     sudo service nginx restart
     sudo update-rc.d hhvm defaults
 
-    hhvm -m daemon -c /etc/hhvm/my-php.ini -v Eval.EnableXHP=1
+    sudo hhvm -m daemon -c /etc/hhvm/my-php.ini -v Eval.EnableXHP=1
 
     sudo apt-get install git -y --force-yes
-
     git clone https://github.com/facebook/watchman.git ~/watchman
     cd ~/watchman
     sudo apt-get install autoconf -y --force-yes
@@ -79,6 +78,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     cd ~/nuclide
     sudo apt-get install --reinstall python-pkg-resources -y --force-yes
     ./scripts/dev/setup --no-atom
-
   shell
 end
