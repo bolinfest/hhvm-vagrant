@@ -34,8 +34,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     sudo apt-get install nginx -y --force-yes
     sudo apt-get install hhvm -y --force-yes
     sudo apt-get install screen vim -y --force-yes
-    debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password pa$$'
-    debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password pa$$'
+    sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password pa$$'
+    sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password pa$$'
     sudo apt-get install mysql-server -y --force-yes
 
     sudo chown vagrant /etc/hhvm
