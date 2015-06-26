@@ -1,11 +1,7 @@
-# HHVM Vagrant box
+# Nuclide Remote Server Demo
 
-Ubuntu Precise box simply installing HHVM (nightly) via apt.
-
-Find more details on the examples found in the [www](https://github.com/vicb/hhvm-vagrant/tree/master/www)
-folder by reading the associated SitePoint article "HHVM and Hack – Can We
-Expect Them to Replace PHP?" [part 1](http://www.sitepoint.com/hhvm-hack-part-1/)
-and [part 2](http://www.sitepoint.com/look-hack-php-replacement-hhvm/).
+This sets up a Vagrant VM with HHVM, Flow, and Mercurial
+and explains how to connect to it to demo remote development in Nuclide.
 
 ## Requirements
 
@@ -15,94 +11,41 @@ and [part 2](http://www.sitepoint.com/look-hack-php-replacement-hhvm/).
 ## Installation
 
 ```bash
-$ git clone https://github.com/vicb/hhvm-vagrant.git
-$ cd hhvm-vagrant
+$ git clone https://github.com/bolinfest/hhvm-vagrant.git ~/nuclide-demo
+$ cd ~/nuclide-demo
 $ vagrant up
 ```
 
-Once the VM is booted you can log via SSH
+If everything went according to plan, you should be able to load
+http://127.0.0.1:8080/ in your browser, and it should display:
+
+**Hack Works !**
+
+You should also make sure you can ssh using private keys by testing the following from
+the command line:
 
 ```bash
-$ vagrant ssh
-$ ...
+$ ssh -i ~/nuclide-demo/.vagrant/machines/default/virtualbox/private_key -p 2222 vagrant@127.0.0.1
 ```
 
-The server root folder is `/vagrant/www` (on the map) which is the `www` folder
-on your host machine.
+You should be able to ssh in directly without being prompted for a password.
 
-- The HHVM server is available at `http://localhost:8080` on the host OS
-- The HHVM admin server is available at `http://localhost:8100` on the host OS,
-  the password is "admin"
-- A MySQL server is installed. The root user is "root" with password "pa$$".
+## Connecting from Nuclide
 
-## Usage
+From the **Packages** menu, choose **Connect...** and fill out the dialog as follows:
 
-Check the [bootstraping guide](http://docs.hhvm.com/manual/en/install.hack.bootstrapping.php)
-and the [HHVM docs](http://docs.hhvm.com/manual/en/index.php).
+**Username:** `vagrant`
 
-## HHVM Server Configuration
+**Server:** `127.0.0.1`
 
-If you want to tweak the configuration, edit the `conf/php.ini` file. The hdf
-format is deprecated and support will be dropped (`conf/config.hdf`).
+**Initial Directory:** `/vagrant/www`
 
-You can find more information on the configuration format:
-- On the [HHVM wiki at github](https://github.com/facebook/hhvm/wiki/Runtime-options),
-- In the [HHVM docs](http://docs.hhvm.com/manual/en/configuration.file.php).
+**Private Key File:** `~/nuclide-demo/.vagrant/machines/default/virtualbox/private_key`
+(radio button should be checked)
 
-The access and error logs are available in `/var/log/hhvm`
+**SSH Port:** 2222
 
-```bash
-$ vagrant ssh
-$ tail -f /var/log/hhvm/access.log
-$ tail -f /var/log/hhvm/error.log
-```
+**Remote Server Command:** `/home/vagrant/nuclide/pkg/nuclide/server/nuclide-start-server`
 
-## Virtual Machine Management
-
-When done just log out with `^D` and suspend the virtual machine
-
-```bash
-$ vagrant suspend
-```
-
-then, resume to testing again
-
-```bash
-$ vagrant resume
-```
-
-Run
-
-```bash
-$ vagrant halt
-```
-
-to shutdown the virtual machine, and
-
-```bash
-$ vagrant up
-```
-
-to boot it again.
-
-You can find out the state of a virtual machine anytime by invoking
-
-```bash
-$ vagrant status
-```
-
-Finally, to completely wipe the virtual machine from the disk **destroying all
-its contents**:
-
-```bash
-$ vagrant destroy
-```
-
-## Credits
-
-contributors:
-- [donmccurdy](https://github.com/donmccurdy) has added the NGINX configuration
-
-I got some inspiration from:
-- https://github.com/adrienbrault/hhvm-vagrant
-- https://github.com/javer/hhvm-vagrant-vm
+You should click the **OK** button, and from there, you should be able to connect without
+being prompted for a password. You should see the remote `www` folder loaded in the file tree.
