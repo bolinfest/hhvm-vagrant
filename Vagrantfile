@@ -4,8 +4,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box = "ubuntu/trusty64"
 
   config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :forwarded_port, guest: 8000, host: 8100
@@ -29,7 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     sudo add-apt-repository ppa:mapnik/boost
     sudo add-apt-repository ppa:nginx/stable
     wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | sudo apt-key add -
-    echo deb http://dl.hhvm.com/ubuntu precise main | sudo tee /etc/apt/sources.list.d/hhvm.list
+    echo deb http://dl.hhvm.com/ubuntu trusty main | sudo tee /etc/apt/sources.list.d/hhvm.list
     sudo apt-get update
     sudo apt-get install nginx -y --force-yes
     sudo apt-get install hhvm -y --force-yes
