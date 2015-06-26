@@ -49,18 +49,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     hhvm -m daemon -c /etc/hhvm/my-php.ini -v Eval.EnableXHP=1
 
-    sudo apt-get install git
+    sudo apt-get install git -y --force-yes
 
     git clone https://github.com/facebook/watchman.git ~/watchman
     cd ~/watchman
-    sudo apt-get install autoconf automake
+    sudo apt-get install autoconf -y --force-yes
+    sudo apt-get install automake -y --force-yes
     ./autogen.sh
     ./configure
-    sudo apt-get install make
+    sudo apt-get install make -y --force-yes
     make
     sudo make install
 
-    sudo apt-get install curl
+    sudo apt-get install curl -y --force-yes
     curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
     source ~/.profile
     nvm install 0.12.0
@@ -69,14 +70,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     cd
     wget --no-verbose http://flowtype.org/downloads/flow-linux64-latest.zip
-    sudo apt-get install unzip
+    sudo apt-get install unzip -y --force-yes
     unzip flow-linux64-latest.zip
     rm flow-linux64-latest.zip
     sudo ln -s ~/flow/flow /usr/bin/flow
 
     git clone https://github.com/facebook/nuclide.git ~/nuclide
     cd ~/nuclide
-    sudo apt-get install --reinstall python-pkg-resources
+    sudo apt-get install --reinstall python-pkg-resources -y --force-yes
     ./scripts/dev/setup --no-atom
 
   shell
