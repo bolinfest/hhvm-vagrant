@@ -60,6 +60,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     make
     sudo make install
 
+    sudo apt-get install mercurial -y --force-yes
+
     sudo apt-get install curl -y --force-yes
     curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
     source ~/.profile
